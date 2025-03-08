@@ -8,6 +8,8 @@ def get_repository_commits(repo_name):
     """
     Get commits of a repository in Kaggle
     """
+    #TODO: try to do this without pagination, is there a way to get all commits in one request?
+    # similar to github user experience, where they can see the number of commits in the main page
     url = f"{GITHUB_API_URL}/repos/{ORG_NAME}/{repo_name}/commits"
     commits_count = 0
     page = 1
