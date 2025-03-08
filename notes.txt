@@ -1,0 +1,6 @@
+
+
+
+During the debugging process, in function `get_repository_statistics`, after run through the line with `statistics = response.json()`, you will see a 
+
+ret_stat
