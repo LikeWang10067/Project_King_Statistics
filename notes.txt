@@ -1,6 +1,8 @@
+First thing first, create a new repo in GitHub, since I am the only coder, I am not going to create a child branch.
 
+Create a file called get_statistics.py, I get a quick start on how to use GitHub api with this video: "https://www.youtube.com/watch?v=-kFyPaHNgXo". Since Kaggle is a org account, implement this in url: `url = f"{GITHUB_API_URL}/orgs/{ORG_NAME}/repos"`
 
-
-During the debugging process, in function `get_repository_statistics`, after run through the line with `statistics = response.json()`, you will see a 
-
-ret_stat
+During the debugging process, in function `get_repository_statistics`, after run through the line with `statistics = response.json()`, you will see a lot of information about this repo: 
+--- stargazers_count: meaning the stars
+--- forks_count: meaning the number of fork
+--- subscribers_count: meaning the number of watch
