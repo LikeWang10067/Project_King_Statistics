@@ -6,3 +6,7 @@ During the debugging process, in function `get_repository_statistics`, after run
 --- stargazers_count: meaning the stars
 --- forks_count: meaning the number of fork
 --- subscribers_count: meaning the number of watch
+
+With the basic setup, let's dig deeper: find the number of commits for this repo: I use this page for assistance `https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28`
+
+Problem 1: if I directly call "{GITHUB_API_URL}/repos/{ORG_NAME}/{repo_name}/commits", it's only giving me the latest 30 commits.
