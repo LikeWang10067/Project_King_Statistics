@@ -14,4 +14,8 @@ Problem 1: if I directly call "{GITHUB_API_URL}/repos/{ORG_NAME}/{repo_name}/com
 
 Problem 2: Sometimes I would get 403 when access data from GitHub repo, sometimes everything is fine. After dig a little deeper, I realize that GitHub will limit the number of unauthenticated requests, we can try to mitigate this problem by:
 1. Generating a access token, but will be expired (for safety concerns)
-2. Adding "time.sleep()", but time.sleep() would slow down the process
+2. Adding "time.sleep()", but time.sleep() would slow down the process'
+
+Problem 3: The number of the contributors and closed_issues is not the right number.
+contributors actual: 141, get: 139
+.allstar user: gossts
