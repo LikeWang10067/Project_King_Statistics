@@ -1,29 +1,9 @@
 import requests
+import get_repo_attributes as gra
 
 # basic setting for GitHub api
 GITHUB_API_URL = "https://api.github.com"
 ORG_NAME = "Kaggle"
-
-def get_repository_commits(repo_name):
-    """
-    Get commits of a repository in Kaggle
-    """
-    #TODO: try to do this without pagination, is there a way to get all commits in one request?
-    # similar to github user experience, where they can see the number of commits in the main page
-    url = f"{GITHUB_API_URL}/repos/{ORG_NAME}/{repo_name}/commits"
-    commits_count = 0
-    page = 1
-    while True:
-        response = requests.get(url, params={"page": page})
-        if response.status_code != 200:
-            raise Exception(f"Failed to fetch commits for {repo_name}: {response.status_code}")
-        commits = response.json()
-        if len(commits) == 0: # meaning we reach the end of the page
-            break
-        commits_count += len(commits)
-        page += 1
-
-    return commits_count
 
 def get_repositories():
     """
@@ -45,7 +25,7 @@ def get_repository_statistics(repo_name):
         print(f"Error: {response.status_code}")
         return ret_stat
     statistics = response.json()
-    ret_stat["commits"] = get_repository_commits(repo_name)
+    ret_stat["commits"] = gra.get_repository_commits(repo_name, GITHUB_API_URL, ORG_NAME)
     ret_stat["stars"] = statistics["stargazers_count"]
     ret_stat["forks"] = statistics["forks_count"]
     return ret_stat
