@@ -86,6 +86,6 @@ Welcome to join me, even if it's a project for fun, please open an issue or subm
 ---
 
 ## **Contact**
-For questions or feedback, please contact [Like Wang](like.wang@mail.utoronto.ca).
+For questions or feedback, please contact Like Wang at like.wang@mail.utoronto.ca.
 
 ---
