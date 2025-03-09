@@ -24,7 +24,7 @@ def get_repository_attributes(github_api_url, org_name, repo_name, info, headers
     # similar to github user experience, where they can see the number of commits in the main page
     url = f"{github_api_url}/repos/{org_name}/{repo_name}/{info}"
     attributes_count = 0
-    while page < 10000: # avoid very large number causing loop for a very long time
+    while True:
         params = {"page": page, "per_page": per_page}
         if info == "closed_issues":
             url = f"{github_api_url}/search/issues?q=repo:{org_name}/{repo_name}+is:issue+is:closed"
