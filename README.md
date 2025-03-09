@@ -7,6 +7,7 @@ This project fetches and analyzes statistics for all repositories under a specif
 ## **Features**
 - Fetch statistics for all repositories in a GitHub organization.
 - Analyze attributes such as commits, stars, contributors, branches, tags, forks, releases, closed issues, and environments.
+- Gain special attributes: lines of code for all programming language in this repository
 - Customize the organization name and attributes to analyze.
 - Generate a report (.json file) with total and median values for the selected attributes.
 
@@ -21,14 +22,17 @@ The script supports the following command-line options:
 | `-t`, `--token`   | GitHub personal access token (required).                                    |
 | `-o`, `--org_name`| GitHub organization name (default: `Kaggle`).                               |
 | `-a`, `--attributes` | Comma-separated list of attributes to analyze (default: all attributes). |
+| `-c`, `--cloc`    | Count lines of code mode ON.                                                |
+
 
 ---
 
 ### **Default Settings**
 - **Organization Name**: `Kaggle`
 - **Attributes**: `commits`, `stars`, `contributors`, `branches`, `tags`, `forks`, `releases`, `closed_issues`, `environments`
+- **Count lines of Code Mode**: OFF
 
-If you want to change the default settings, use the `-o` and `-a` options.
+If you want to change the default settings, use the `-o`, `-a` and `-c` options.
 
 ---
 
@@ -55,6 +59,7 @@ The script generates a report with the following information:
 - Python 3.x
 - `requests` library (install via `pip install requests`)
 - GitHub personal access token (with `repo` scope): THIS IS Very Very Important!!!! The GitHub token is required to authenticate API requests and avoid rate limits. For how to get a personal access token in GitHub, please visit: [Tutorial](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+- The `cloc` tool must be installed on your system for "Count lines of Code Mode" ON
 
 ---
 
@@ -64,9 +69,12 @@ The script generates a report with the following information:
    git clone https://github.com/your-username/github-repo-stats.git
    cd github-repo-stats
    ```
-2. Install the required dependencies:
+2. Install the required dependencies (for Mac):
     ```bash
     pip install requests
+    ```
+    ```bash
+    brew install cloc
     ```
 3. Have fun and run the script:
     ```bash

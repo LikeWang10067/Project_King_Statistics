@@ -24,3 +24,6 @@ For false number of contributors:
 For false number of closed_issues: because GitHub api will default count PR as closed_issues (resource: https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-issues-and-pull-requests)
 solution: change url = f"{github_api_url}/repos/{org_name}/{repo_name}/issues?state=closed"
 	into url = url = f"{github_api_url}/repos/{org_name}/{repo_name}/issues?state=closed&q=is:issue"
+
+Problem 4: How to get the number of lines without GitHub api? Use cloc, very convenient!
+Ideas from: https://stackoverflow.com/questions/26881441/can-you-get-the-number-of-lines-of-code-from-a-github-repository

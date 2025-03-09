@@ -1,9 +1,16 @@
 import requests
 import statistics as sta
+import os
+import subprocess
 import json
+import re
 
 # basic setting for GitHub api
 GITHUB_API_URL = "https://api.github.com"
+
+#TODO: It should print out the total and median number of source code lines per programming
+#languages used from all the repositories of Kaggle (you are not allowed to use the GitHub
+#API for this part, but you may use any other tool or library).
 
 def get_repositories(org_name, headers, page=1, per_page=100):
     """
@@ -72,7 +79,41 @@ def get_repository_statistics(org_name ,repo_name, headers, attribute_list):
             ret_stat[attribute] = get_repository_attributes(GITHUB_API_URL, org_name, repo_name, attribute, headers)
     return ret_stat
 
-def get_statistics_report(org_name, headers, attribute_list):
+def get_repository_pl_statistics(repo_name, repo_url):
+    """
+    Get statistics o all programming languages and their lines in total in a repository
+    Sad face, I can't use the GitHub API for this part
+    """
+    # create a directory temp_repos to store the repositories
+    repo_path = os.path.join("temp_repos", repo_name)
+    if not os.path.exists(repo_path):
+        # # clone the repository into temp_repos
+        # subprocess.run(["git", "clone", repo_url, repo_path], check=True)
+
+        # clone the repository into temp_repos and discard the stdout
+        subprocess.run(["git", "clone", repo_url, repo_path], check=True, stderr=subprocess.DEVNULL)
+    lines_of_code = -1
+    # count the lines of code with cloc
+    lines_of_code = subprocess.run(["cloc", repo_path], capture_output=True, text=True)
+    output_lines = lines_of_code.stdout.split("\n")
+    ret_pl_stat = {}
+    # get the lines of code for each programming language
+    for line in output_lines:
+        if "github.com/AlDanial/cloc" in line:
+            continue
+        if "Language" in line:
+            continue
+        if "------" in line:
+            continue
+        if "SUM:" in line:
+            break
+        if line == "":
+            break
+        one_pl_stat = re.split(r'\s{2,}', line)
+        ret_pl_stat[one_pl_stat[0]] = int(one_pl_stat[4])
+    return ret_pl_stat
+
+def get_statistics_report(org_name, headers, attribute_list, cloc_mode):
     """
     Get statistics of repositories in Kaggle"
     """
@@ -84,14 +125,28 @@ def get_statistics_report(org_name, headers, attribute_list):
     # Get statistics of each repository
     for repository in repositories:
         repository_name = repository["name"]
+        repository_url = repository["html_url"]
         print(f"====================== Repository: {repository_name} ======================")
+
         statistics = get_repository_statistics(org_name, repository_name, headers, attribute_list)
         print(statistics)
         raw_data[repository_name] = statistics
+
         for attribute in statistics:
             if attribute not in pure_data:
                 pure_data[attribute] = []
             pure_data[attribute].append(statistics[attribute])
+        
+        if cloc_mode:
+            pl_statistics = get_repository_pl_statistics(repository_name, repository_url)
+            print(pl_statistics)
+            # merge the data for regular statistics and programming language statistics
+            raw_data = pl_statistics | raw_data
+
+            for language in pl_statistics:
+                if language not in pure_data:
+                    pure_data[language] = []
+                pure_data[language].append(pl_statistics[language])
     
     # Proferm data analysis and save the results into a json file
     print("================================= Data Analysis =================================")
@@ -113,7 +168,7 @@ def get_statistics_report(org_name, headers, attribute_list):
 
 
 if __name__ == "__main__":
-    import os, sys, getopt
+    import sys, getopt
     def usage():
         print('Usage:  ' + os.path.basename(__file__) + ' options filepath ')
         print('Options:')
@@ -121,6 +176,7 @@ if __name__ == "__main__":
         print('\t-t, --token: GitHub token')
         print('\t-o, --org_name: organization name')
         print('\t-a, --attributes: attributes list')
+        print('\t-c, --cloc: use cloc to get the statistics of programming languages')
         print('Note:')
         print('\tThe default organization name is Kaggle')
         print('\tThe default attributes list is commits,stars,contributors,branches,tags,forks,releases,closed_issues,environments')
@@ -137,6 +193,7 @@ if __name__ == "__main__":
     github_token = None
     org_name = "Kaggle" # default organization name
     attribute_list = ["commits", "stars", "contributors", "branches", "tags", "forks", "releases", "closed_issues", "environments"] # default attributes
+    cloc_mode = False
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             usage()
@@ -150,8 +207,10 @@ if __name__ == "__main__":
             org_name = arg
         if opt in ("-a", "--attributes"):
             attribute_list = arg.split(",")
+        if opt in ("-c", "--cloc"):
+            cloc_mode = True
     # check if the token is set
     if github_token is None:
         print('GitHub token is required to avoid GitHub API rate limit')
         usage()
-    get_statistics_report(org_name, headers, attribute_list)
+    get_statistics_report(org_name, headers, attribute_list, cloc_mode)
