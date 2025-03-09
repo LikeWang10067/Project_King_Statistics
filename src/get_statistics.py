@@ -82,9 +82,25 @@ def get_statistics():
     # Get statistics of each repository
     for repository in repositories:
         repository_name = repository["name"]
-        # repository_name = "docker-python"
         print(f"====================== Repository: {repository_name} ======================")
         statistics = get_repository_statistics(repository_name)
+        raw_data[repository_name] = statistics
+        for attribute in statistics:
+            if attribute not in pure_data:
+                pure_data[attribute] = []
+            pure_data[attribute].append(statistics[attribute])
+    
+    # Proferm data analysis
+    print("================================= Data Analysis =================================")
+    for attribute in pure_data:
+        data = pure_data[attribute]
+        print(f"Attribute: {attribute}")
+        print(f"Max: {max(data)}")
+        print(f"Min: {min(data)}")
+        print(f"Total: {sum(data)}")
+        print(f"Median: {sorted(data)[len(data)//2]}")
+        print(f"=================================")
+
 
 if __name__ == "__main__":
     #TODO: add command line arguments
