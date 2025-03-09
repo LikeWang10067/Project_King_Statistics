@@ -4,7 +4,7 @@ This project fetches and analyzes statistics for all repositories under a specif
 
 ---
 
-## **Features**
+## **Main Features**
 - Fetch statistics for all repositories in a GitHub organization.
 - Analyze attributes such as commits, stars, contributors, branches, tags, forks, releases, closed issues, and environments.
 - Gain special attributes: lines of code for all programming language in this repository
@@ -23,6 +23,7 @@ The script supports the following command-line options:
 | `-o`, `--org_name`| GitHub organization name (default: `Kaggle`).                               |
 | `-a`, `--attributes` | Comma-separated list of attributes to analyze (default: all attributes). |
 | `-c`, `--cloc`    | Count lines of code mode ON.                                                |
+| `-l`, `--log`     | Print the clone log and save the repositories you cloned to local storage.  |
 
 
 ---
@@ -31,8 +32,9 @@ The script supports the following command-line options:
 - **Organization Name**: `Kaggle`
 - **Attributes**: `commits`, `stars`, `contributors`, `branches`, `tags`, `forks`, `releases`, `closed_issues`, `environments`
 - **Count lines of Code Mode**: OFF
+- **Log and Save Repo Mode**: OFF
 
-If you want to change the default settings, use the `-o`, `-a` and `-c` options.
+If you want to change the default settings, use the `-o`, `-a`, `-c` and `-l` options.
 
 ---
 
@@ -45,6 +47,10 @@ If you want to change the default settings, use the `-o`, `-a` and `-c` options.
 2. **Get statistics for a specific organization (`langchain-ai`) with selected attributes (`commits and stars`):**
    ```bash
    python get_statistics.py -t <GitHub token> -o langchain-ai -a commits,stars
+   ```
+3. **Get statistics for a specific organization (`langchain-ai`) with selected attributes (`commits, stars and languages:...`) and print the clone log in the terminal and save the repositories you cloned to local storage:**
+   ```bash
+   python get_statistics.py -t <GitHub token> -o langchain-ai -a commits,stars -c -l
    ```
 
 ---
