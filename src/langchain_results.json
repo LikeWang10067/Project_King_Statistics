@@ -1,0 +1,186 @@
+{
+    "stars": {
+        "total": 177398,
+        "median": 28
+    },
+    "languages: Python": {
+        "total": 704788,
+        "median": 555
+    },
+    "languages: Jupyter Notebook": {
+        "total": 135197,
+        "median": 347
+    },
+    "languages: YAML": {
+        "total": 143230,
+        "median": 368.5
+    },
+    "languages: Markdown": {
+        "total": 143229,
+        "median": 102
+    },
+    "languages: JSON": {
+        "total": 136806,
+        "median": 77.0
+    },
+    "languages: JavaScript": {
+        "total": 101827,
+        "median": 142
+    },
+    "languages: XML": {
+        "total": 5615,
+        "median": 21
+    },
+    "languages: CSV": {
+        "total": 3279,
+        "median": 44.5
+    },
+    "languages: TOML": {
+        "total": 9229,
+        "median": 52
+    },
+    "languages: Text": {
+        "total": 16535,
+        "median": 12
+    },
+    "languages: SVG": {
+        "total": 3677,
+        "median": 24
+    },
+    "languages: make": {
+        "total": 4025,
+        "median": 37
+    },
+    "languages: CSS": {
+        "total": 33832,
+        "median": 167
+    },
+    "languages: Bourne Shell": {
+        "total": 3054,
+        "median": 11.5
+    },
+    "languages: HTML": {
+        "total": 9877041,
+        "median": 130.5
+    },
+    "languages: XSLT": {
+        "total": 149,
+        "median": 149
+    },
+    "languages: Jinja Template": {
+        "total": 735,
+        "median": 40
+    },
+    "languages: SQL": {
+        "total": 570,
+        "median": 58.5
+    },
+    "languages: Dockerfile": {
+        "total": 364,
+        "median": 11.0
+    },
+    "languages: reStructuredText": {
+        "total": 1696,
+        "median": 14
+    },
+    "languages: DOS Batch": {
+        "total": 399,
+        "median": 26.0
+    },
+    "languages: TeX": {
+        "total": 14,
+        "median": 14
+    },
+    "languages: Properties": {
+        "total": 12,
+        "median": 6.0
+    },
+    "languages: TypeScript": {
+        "total": 389789,
+        "median": 1099.5
+    },
+    "languages: HCL": {
+        "total": 751,
+        "median": 260
+    },
+    "languages: diff": {
+        "total": 215,
+        "median": 41
+    },
+    "languages: Prisma Schema": {
+        "total": 13,
+        "median": 13
+    },
+    "languages: INI": {
+        "total": 196,
+        "median": 8.0
+    },
+    "languages: Rust": {
+        "total": 83959,
+        "median": 83959
+    },
+    "languages: C": {
+        "total": 7032,
+        "median": 7032
+    },
+    "languages: C/C++ Header": {
+        "total": 3973,
+        "median": 3973
+    },
+    "languages: Bourne Again Shell": {
+        "total": 206,
+        "median": 38
+    },
+    "languages: JSX": {
+        "total": 9,
+        "median": 9
+    },
+    "languages: Nix": {
+        "total": 4,
+        "median": 4
+    },
+    "languages: Vuejs Component": {
+        "total": 305,
+        "median": 305
+    },
+    "languages: CMake": {
+        "total": 7,
+        "median": 7
+    },
+    "languages: C++": {
+        "total": 6,
+        "median": 6
+    },
+    "languages: C#": {
+        "total": 4464,
+        "median": 4464
+    },
+    "languages: Razor": {
+        "total": 1512,
+        "median": 1512
+    },
+    "languages: PowerShell": {
+        "total": 311,
+        "median": 311
+    },
+    "languages: MSBuild script": {
+        "total": 138,
+        "median": 138
+    },
+    "languages: Visual Studio Solution": {
+        "total": 47,
+        "median": 47
+    },
+    "languages: Kotlin": {
+        "total": 48716,
+        "median": 48716
+    },
+    "languages: Gradle": {
+        "total": 266,
+        "median": 266
+    },
+    "languages: Java": {
+        "total": 188,
+        "median": 188
+    }
+}
