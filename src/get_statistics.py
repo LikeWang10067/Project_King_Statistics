@@ -6,7 +6,7 @@ import json
 GITHUB_API_URL = "https://api.github.com"
 ORG_NAME = "Kaggle"
 ATTRIBUTE_LIST = ["commits", "stars", "contributors", "branches", "tags", "forks", "releases", "closed_issues", "environments"]
-GITHUB_TOKEN = "your_github_token"
+GITHUB_TOKEN = None
 HEADERS = {
     "Accept": "application/vnd.github.v3+json",
     "Authorization": f"Bearer {GITHUB_TOKEN}"
@@ -74,7 +74,7 @@ def get_repository_statistics(repo_name):
             ret_stat[attribute] = get_repository_attributes(GITHUB_API_URL, ORG_NAME, repo_name, attribute, HEADERS)
     return ret_stat
 
-def get_statistics():
+def get_statistics_report():
     """
     Get statistics of repositories in Kaggle"
     """
@@ -115,17 +115,34 @@ def get_statistics():
 
 
 if __name__ == "__main__":
-    #TODO: add command line arguments
     import os, sys, getopt
     def usage():
-        print("Usage: python get_statistics.py")
-        sys.exit(2)
+        print('Usage:    ' + os.path.basename(__file__) + ' options filepath ')
+        print('Options:')
+        print('\t-h, --help: print basic usage information')
+        print('\t-t, --token: GitHub token')
+        print('\t-o, --org_name: organization name')
+        print('\t-a, --attributes: attributes list')
+        sys.exit(0)
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
+        opts, args = getopt.getopt(sys.argv[1:], "ht:o:a:", ["help", "token=", "org_name=", "attributes"])
+        print(opts)
+        print(args)
     except getopt.GetoptError as err:
         print(err)
         usage()
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             usage()
-    get_statistics()
+        if opt in ("-t", "--token"):
+            GITHUB_TOKEN = str(arg)
+            print(GITHUB_TOKEN)
+        if opt in ("-o", "--org_name"):
+            ORG_NAME = arg
+        if opt in ("-a", "--attributes"):
+            ATTRIBUTE_LIST = arg.split(",")
+    # check if the token is set
+    if GITHUB_TOKEN is None:
+        print('GitHub token is required to avoid GitHub API rate limit')
+        usage()
+    get_statistics_report()

@@ -1,0 +1,38 @@
+{
+    "commits": {
+        "total": 7094,
+        "median": 212.0
+    },
+    "stars": {
+        "total": 10228,
+        "median": 93.0
+    },
+    "contributors": {
+        "total": 303,
+        "median": 12.5
+    },
+    "branches": {
+        "total": 223,
+        "median": 5.5
+    },
+    "tags": {
+        "total": 426,
+        "median": 1.0
+    },
+    "forks": {
+        "total": 2681,
+        "median": 26.0
+    },
+    "releases": {
+        "total": 306,
+        "median": 0.0
+    },
+    "closed_issues": {
+        "total": 818,
+        "median": 6.5
+    },
+    "environments": {
+        "total": 0,
+        "median": 0.0
+    }
+}
