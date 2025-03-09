@@ -116,4 +116,16 @@ def get_statistics():
 
 if __name__ == "__main__":
     #TODO: add command line arguments
+    import os, sys, getopt
+    def usage():
+        print("Usage: python get_statistics.py")
+        sys.exit(2)
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
+    except getopt.GetoptError as err:
+        print(err)
+        usage()
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            usage()
     get_statistics()
