@@ -8,10 +8,6 @@ import re
 # basic setting for GitHub api
 GITHUB_API_URL = "https://api.github.com"
 
-#TODO: It should print out the total and median number of source code lines per programming
-#languages used from all the repositories of Kaggle (you are not allowed to use the GitHub
-#API for this part, but you may use any other tool or library).
-
 def get_repositories(org_name, headers, page=1, per_page=100):
     """
     Get all repositories in Kaggle
@@ -79,7 +75,7 @@ def get_repository_statistics(org_name ,repo_name, headers, attribute_list):
             ret_stat[attribute] = get_repository_attributes(GITHUB_API_URL, org_name, repo_name, attribute, headers)
     return ret_stat
 
-def get_repository_pl_statistics(repo_name, repo_url):
+def get_repository_pl_statistics(repo_name, repo_url, log_mode):
     """
     Get statistics o all programming languages and their lines in total in a repository
     Sad face, I can't use the GitHub API for this part
@@ -87,11 +83,13 @@ def get_repository_pl_statistics(repo_name, repo_url):
     # create a directory temp_repos to store the repositories
     repo_path = os.path.join("temp_repos", repo_name)
     if not os.path.exists(repo_path):
-        # # clone the repository into temp_repos
-        # subprocess.run(["git", "clone", repo_url, repo_path], check=True)
-
-        # clone the repository into temp_repos and discard the stdout
-        subprocess.run(["git", "clone", repo_url, repo_path], check=True, stderr=subprocess.DEVNULL)
+        if log_mode:
+            subprocess.run(["git", "clone", repo_url, repo_path], check=True)
+        else:
+            subprocess.run(["git", "clone", repo_url, repo_path],
+                           check=True,
+                           stdout=subprocess.DEVNULL,
+                           stderr=subprocess.DEVNULL)
     lines_of_code = -1
     # count the lines of code with cloc
     lines_of_code = subprocess.run(["cloc", repo_path], capture_output=True, text=True)
@@ -120,7 +118,7 @@ def temp_repos_cleanup():
     """
     subprocess.run(["rm", "-rf", "temp_repos"], check=True)
 
-def get_statistics_report(org_name, headers, attribute_list, cloc_mode):
+def get_statistics_report(org_name, headers, attribute_list, cloc_mode, log_mode):
     """
     Get statistics of repositories in Kaggle"
     """
@@ -145,7 +143,7 @@ def get_statistics_report(org_name, headers, attribute_list, cloc_mode):
             pure_data[attribute].append(statistics[attribute])
         
         if cloc_mode:
-            pl_statistics = get_repository_pl_statistics(repository_name, repository_url)
+            pl_statistics = get_repository_pl_statistics(repository_name, repository_url, log_mode)
             print(pl_statistics)
             # merge the data for regular statistics and programming language statistics
             raw_data = pl_statistics | raw_data
@@ -193,7 +191,7 @@ if __name__ == "__main__":
         print('\tMeaning: get statistics of commits and stars for all repositories in the organization: langchain-ai')
         sys.exit(0)
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hct:o:a:", ["help", "token=", "org_name=", "attributes", "cloc"])
+        opts, args = getopt.getopt(sys.argv[1:], "hclt:o:a:", ["help", "token=", "org_name=", "attributes", "cloc", "log"])
     except getopt.GetoptError as err:
         print(err)
         usage()
@@ -201,6 +199,7 @@ if __name__ == "__main__":
     org_name = "Kaggle" # default organization name
     attribute_list = ["commits", "stars", "contributors", "branches", "tags", "forks", "releases", "closed_issues", "environments"] # default attributes
     cloc_mode = False
+    log_mode = False
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             usage()
@@ -216,8 +215,10 @@ if __name__ == "__main__":
             attribute_list = arg.split(",")
         if opt in ("-c", "--cloc"):
             cloc_mode = True
+        if opt in ("-l", "--log"):
+            log_mode = True
     # check if the token is set
     if github_token is None:
         print('GitHub token is required to avoid GitHub API rate limit')
         usage()
-    get_statistics_report(org_name, headers, attribute_list, cloc_mode)
+    get_statistics_report(org_name, headers, attribute_list, cloc_mode, log_mode)
