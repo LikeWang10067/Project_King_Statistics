@@ -72,7 +72,6 @@ def get_repository_statistics(repo_name):
             ret_stat[attribute] = statistics["forks_count"]
         else:
             ret_stat[attribute] = get_repository_attributes(GITHUB_API_URL, ORG_NAME, repo_name, attribute, HEADERS)
-    #TODO: closed_issue numbers wrong
     return ret_stat
 
 def get_statistics():
