@@ -4,7 +4,7 @@
         "median": 212.0
     },
     "stars": {
-        "total": 10229,
+        "total": 10230,
         "median": 93.0
     },
     "contributors": {
@@ -35,87 +35,87 @@
         "total": 0,
         "median": 0.0
     },
-    "Julia": {
+    "languages: Julia": {
         "total": 70,
         "median": 70
     },
-    "Dockerfile": {
+    "languages: Dockerfile": {
         "total": 554,
         "median": 38.5
     },
-    "Bourne Again Shell": {
+    "languages: Bourne Again Shell": {
         "total": 832,
         "median": 168.0
     },
-    "Markdown": {
+    "languages: Markdown": {
         "total": 4660,
         "median": 75.5
     },
-    "Text": {
+    "languages: Text": {
         "total": 31579,
         "median": 258
     },
-    "XML": {
+    "languages: XML": {
         "total": 24341,
         "median": 12170.5
     },
-    "Python": {
+    "languages: Python": {
         "total": 71823,
         "median": 11255.5
     },
-    "CSV": {
+    "languages: CSV": {
         "total": 329884,
         "median": 430
     },
-    "JSON": {
+    "languages: JSON": {
         "total": 1847,
         "median": 116.0
     },
-    "Bourne Shell": {
+    "languages: Bourne Shell": {
         "total": 1745,
         "median": 300
     },
-    "Jupyter Notebook": {
+    "languages: Jupyter Notebook": {
         "total": 15143,
         "median": 0
     },
-    "R": {
+    "languages: R": {
         "total": 728,
         "median": 197
     },
-    "YAML": {
+    "languages: YAML": {
         "total": 522,
         "median": 109.5
     },
-    "TOML": {
+    "languages: TOML": {
         "total": 249,
         "median": 124.5
     },
-    "reStructuredText": {
+    "languages: reStructuredText": {
         "total": 0,
         "median": 0
     },
-    "TypeScript": {
+    "languages: TypeScript": {
         "total": 2980,
         "median": 1490.0
     },
-    "SVG": {
+    "languages: SVG": {
         "total": 17,
         "median": 17
     },
-    "CSS": {
+    "languages: CSS": {
         "total": 11,
         "median": 11
     },
-    "JavaScript": {
+    "languages: JavaScript": {
         "total": 6985,
         "median": 3492.5
     },
-    "Java": {
+    "languages: Java": {
         "total": 1608,
         "median": 1608
     },
-    "HTML": {
+    "languages: HTML": {
         "total": 726,
         "median": 726
     }

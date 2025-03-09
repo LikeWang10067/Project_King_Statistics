@@ -109,7 +109,8 @@ def get_repository_pl_statistics(repo_name, repo_url, log_mode):
             break
         one_pl_stat = re.split(r'\s{2,}', line)
         ret_pl_stat[one_pl_stat[0]] = int(one_pl_stat[4])
-    temp_repos_cleanup()
+    if not log_mode:
+        temp_repos_cleanup()
     return ret_pl_stat
 
 def temp_repos_cleanup():
@@ -149,9 +150,10 @@ def get_statistics_report(org_name, headers, attribute_list, cloc_mode, log_mode
             raw_data = pl_statistics | raw_data
 
             for language in pl_statistics:
-                if language not in pure_data:
-                    pure_data[language] = []
-                pure_data[language].append(pl_statistics[language])
+                language_attri = "languages: "+language
+                if language_attri not in pure_data:
+                    pure_data[language_attri] = []
+                pure_data[language_attri].append(pl_statistics[language])
     
     # Proferm data analysis and save the results into a json file
     print("================================= Data Analysis =================================")
@@ -182,6 +184,7 @@ if __name__ == "__main__":
         print('\t-o, --org_name: organization name')
         print('\t-a, --attributes: attributes list')
         print('\t-c, --cloc: use cloc to get the statistics of programming languages')
+        print('\t-l, --log: print the log of cloc and save the repositories')
         print('Note:')
         print('\tThe default organization name is Kaggle')
         print('\tThe default attributes list is commits,stars,contributors,branches,tags,forks,releases,closed_issues,environments')
