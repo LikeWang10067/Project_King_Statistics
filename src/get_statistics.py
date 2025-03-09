@@ -111,7 +111,14 @@ def get_repository_pl_statistics(repo_name, repo_url):
             break
         one_pl_stat = re.split(r'\s{2,}', line)
         ret_pl_stat[one_pl_stat[0]] = int(one_pl_stat[4])
+    temp_repos_cleanup()
     return ret_pl_stat
+
+def temp_repos_cleanup():
+    """
+    Clean up the temp_repos directory after the program finishes to avoid space waste
+    """
+    subprocess.run(["rm", "-rf", "temp_repos"], check=True)
 
 def get_statistics_report(org_name, headers, attribute_list, cloc_mode):
     """
@@ -186,7 +193,7 @@ if __name__ == "__main__":
         print('\tMeaning: get statistics of commits and stars for all repositories in the organization: langchain-ai')
         sys.exit(0)
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "ht:o:a:", ["help", "token=", "org_name=", "attributes"])
+        opts, args = getopt.getopt(sys.argv[1:], "hct:o:a:", ["help", "token=", "org_name=", "attributes", "cloc"])
     except getopt.GetoptError as err:
         print(err)
         usage()
