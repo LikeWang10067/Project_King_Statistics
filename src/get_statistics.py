@@ -115,11 +115,16 @@ if __name__ == "__main__":
         print('\t-t, --token: GitHub token')
         print('\t-o, --org_name: organization name')
         print('\t-a, --attributes: attributes list')
+        print('Note:')
+        print('\tThe default organization name is Kaggle')
+        print('\tThe default attributes list is commits,stars,contributors,branches,tags,forks,releases,closed_issues,environments')
+        print('\tIf you want to change the default settings, please use -o and -a options')
+        print('Example:')
+        print('\t$ python get_statistics.py -t <GitHub token> -o langchain-ai -a commits,stars')
+        print('\tMeaning: get statistics of commits and stars for all repositories in the organization: langchain-ai')
         sys.exit(0)
     try:
         opts, args = getopt.getopt(sys.argv[1:], "ht:o:a:", ["help", "token=", "org_name=", "attributes"])
-        print(opts)
-        print(args)
     except getopt.GetoptError as err:
         print(err)
         usage()
@@ -139,7 +144,6 @@ if __name__ == "__main__":
             org_name = arg
         if opt in ("-a", "--attributes"):
             attribute_list = arg.split(",")
-            print(attribute_list)
     # check if the token is set
     if github_token is None:
         print('GitHub token is required to avoid GitHub API rate limit')
