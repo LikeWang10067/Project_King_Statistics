@@ -4,20 +4,13 @@ import json
 
 # basic setting for GitHub api
 GITHUB_API_URL = "https://api.github.com"
-ORG_NAME = "Kaggle"
-ATTRIBUTE_LIST = ["commits", "stars", "contributors", "branches", "tags", "forks", "releases", "closed_issues", "environments"]
-GITHUB_TOKEN = None
-HEADERS = {
-    "Accept": "application/vnd.github.v3+json",
-    "Authorization": f"Bearer {GITHUB_TOKEN}"
-}
 
-def get_repositories(org_name):
+def get_repositories(org_name, headers):
     """
     Get all repositories in Kaggle
     """
     url = f"{GITHUB_API_URL}/orgs/{org_name}/repos"
-    response = requests.get(url, headers=HEADERS)
+    response = requests.get(url, headers=headers)
     if response.status_code != 200:
         raise Exception(f"Failed to fetch repositories for {org_name}: {response.status_code}")
     repositories = response.json()
@@ -51,35 +44,34 @@ def get_repository_attributes(github_api_url, org_name, repo_name, info, headers
         page += 1
     return attributes_count
 
-def get_repository_statistics(repo_name):
+def get_repository_statistics(org_name ,repo_name, headers, attribute_list):
     """
     Get statistics of a repository in Kaggle
     """
     ret_stat = {}
-    url = f"{GITHUB_API_URL}/repos/{ORG_NAME}/{repo_name}"
-    response = requests.get(url, headers=HEADERS)
+    url = f"{GITHUB_API_URL}/repos/{org_name}/{repo_name}"
+    response = requests.get(url, headers=headers)
     if response.status_code != 200:
         print(f"Error: {response.status_code}")
         return ret_stat
     statistics = response.json()
-    attributes_list = ATTRIBUTE_LIST
-    for attribute in attributes_list:
+    for attribute in attribute_list:
         if attribute == "commits":
-            ret_stat[attribute] = get_repository_attributes(GITHUB_API_URL, ORG_NAME, repo_name, "commits", HEADERS, 1, 500)
+            ret_stat[attribute] = get_repository_attributes(GITHUB_API_URL, org_name, repo_name, "commits", headers, 1, 500)
         elif attribute == "stars":
             ret_stat[attribute] = statistics["stargazers_count"]
         elif attribute == "forks":
             ret_stat[attribute] = statistics["forks_count"]
         else:
-            ret_stat[attribute] = get_repository_attributes(GITHUB_API_URL, ORG_NAME, repo_name, attribute, HEADERS)
+            ret_stat[attribute] = get_repository_attributes(GITHUB_API_URL, org_name, repo_name, attribute, headers)
     return ret_stat
 
-def get_statistics_report():
+def get_statistics_report(org_name, headers, attribute_list):
     """
     Get statistics of repositories in Kaggle"
     """
     # Get all repositories in Kaggle
-    repositories = get_repositories(ORG_NAME)
+    repositories = get_repositories(org_name, headers)
     raw_data = {}
     pure_data = {}
 
@@ -87,7 +79,7 @@ def get_statistics_report():
     for repository in repositories:
         repository_name = repository["name"]
         print(f"====================== Repository: {repository_name} ======================")
-        statistics = get_repository_statistics(repository_name)
+        statistics = get_repository_statistics(org_name, repository_name, headers, attribute_list)
         print(statistics)
         raw_data[repository_name] = statistics
         for attribute in statistics:
@@ -105,11 +97,11 @@ def get_statistics_report():
         # print(f"Min: {min(data)}")
         print(f"Total: {sum(data)}")
         print(f"Median: {sta.median(sorted(data))}")
+        print(f"=================================")
         statistics_results[attribute] = {
             "total": sum(data),
             "median": sta.median(sorted(data))
         }
-    print(f"=================================")
     with open("statistics_results.json", "w") as file_stream:
         file_stream.write(json.dumps(statistics_results, indent=4))
 
@@ -117,7 +109,7 @@ def get_statistics_report():
 if __name__ == "__main__":
     import os, sys, getopt
     def usage():
-        print('Usage:    ' + os.path.basename(__file__) + ' options filepath ')
+        print('Usage:  ' + os.path.basename(__file__) + ' options filepath ')
         print('Options:')
         print('\t-h, --help: print basic usage information')
         print('\t-t, --token: GitHub token')
@@ -131,18 +123,25 @@ if __name__ == "__main__":
     except getopt.GetoptError as err:
         print(err)
         usage()
+    github_token = None
+    org_name = "Kaggle" # default organization name
+    attribute_list = ["commits", "stars", "contributors", "branches", "tags", "forks", "releases", "closed_issues", "environments"] # default attributes
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             usage()
         if opt in ("-t", "--token"):
-            GITHUB_TOKEN = str(arg)
-            print(GITHUB_TOKEN)
+            github_token = arg
+            headers = {
+                "Accept": "application/vnd.github.v3+json",
+                "Authorization": f"Bearer {github_token}"
+            }
         if opt in ("-o", "--org_name"):
-            ORG_NAME = arg
+            org_name = arg
         if opt in ("-a", "--attributes"):
-            ATTRIBUTE_LIST = arg.split(",")
+            attribute_list = arg.split(",")
+            print(attribute_list)
     # check if the token is set
-    if GITHUB_TOKEN is None:
+    if github_token is None:
         print('GitHub token is required to avoid GitHub API rate limit')
         usage()
-    get_statistics_report()
+    get_statistics_report(org_name, headers, attribute_list)
