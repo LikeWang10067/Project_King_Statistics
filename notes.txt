@@ -17,5 +17,10 @@ Problem 2: Sometimes I would get 403 when access data from GitHub repo, sometime
 2. Adding "time.sleep()", but time.sleep() would slow down the process'
 
 Problem 3: The number of the contributors and closed_issues is not the right number.
-contributors actual: 141, get: 139
-.allstar user: gossts
+For false number of contributors:
+	contributors actual: 141, get: 139 
+	.allstar user: gossts
+(reason: some account got closed or deleted)
+For false number of closed_issues: because GitHub api will default count PR as closed_issues (resource: https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-issues-and-pull-requests)
+solution: change url = f"{github_api_url}/repos/{org_name}/{repo_name}/issues?state=closed"
+	into url = url = f"{github_api_url}/repos/{org_name}/{repo_name}/issues?state=closed&q=is:issue"
