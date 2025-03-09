@@ -5,15 +5,21 @@ import json
 # basic setting for GitHub api
 GITHUB_API_URL = "https://api.github.com"
 
-def get_repositories(org_name, headers):
+def get_repositories(org_name, headers, page=1, per_page=100):
     """
     Get all repositories in Kaggle
     """
     url = f"{GITHUB_API_URL}/orgs/{org_name}/repos"
-    response = requests.get(url, headers=headers)
-    if response.status_code != 200:
-        raise Exception(f"Failed to fetch repositories for {org_name}: {response.status_code}")
-    repositories = response.json()
+    repositories = []
+    while True:
+        params = {"page": page, "per_page": per_page}
+        response = requests.get(url, headers=headers, params=params)
+        if response.status_code != 200:
+            raise Exception(f"Failed to fetch repositories for {org_name} on page {page}: {response.status_code}")
+        repositories.extend(response.json())
+        if len(response.json()) == 0:
+            break
+        page += 1
     return repositories
 
 def get_repository_attributes(github_api_url, org_name, repo_name, info, headers, page=1, per_page=100):
