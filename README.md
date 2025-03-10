@@ -8,7 +8,7 @@ This project fetches and analyzes statistics for all repositories under a specif
 - Fetch statistics for all repositories in a GitHub organization.
 - Analyze general attributes such as commits, stars, contributors, branches, tags, forks, releases, closed issues, and environments.
 - Gain special attributes: lines of code for all programming language in this repository.
-- Customize the organization name and attributes to analyze. The way we analyze lines of code is a little bit different from general attributes, we will only record the data of a programming language if it has lines of code in the repository, this is to prevent having a lot of 0s when trying to get the median of a data set, I wanted to avoid having a dataset like this: `[0, 0, 0, 121, 3, 0, 0, 1, 0, 0, 0, 0]`, a more valid 
+- Customize the organization name and attributes to analyze. The way we analyze lines of code is a little bit different from general attributes, we will only record the data of a programming language if it has lines of code in the repository, this is to prevent having a lot of 0s when trying to get the median of a data set, I wanted to avoid having a dataset like this: `[0, 0, 0, 121, 3, 0, 0, 1, 0, 0, 0, 0]`, a more valid dataset would be like `[121, 3, 1]`.
 - Generate a report (.json file) with total and median values for the selected attributes.
 
 ---
